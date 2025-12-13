@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book Library</title>
+    <link rel="stylesheet" href="book.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 My Book Library</h1>
+        
+        <div class="form-section">
+            <h2>Add New Book</h2>
+            <form id="bookForm">
+                <input type="text" id="title" placeholder="Book Title" required>
+                <input type="text" id="author" placeholder="Author" required>
+                <input type="number" id="year" placeholder="Year Published" required>
+                <input type="number" id="pages" placeholder="Number of Pages" required>
+                <label>
+                    <input type="checkbox" id="isRead">
+                    I have read this book
+                </label>
+                <button type="submit">Add Book</button>
+            </form>
+        </div>
+
+        <div class="books-section">
+            <h2>Books in Library</h2>
+            <div id="booksDisplay"></div>
+        </div>
+    </div>
+
+    <script src="../js/book.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display initial books and handle form submission
+            document.getElementById('bookForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('title').value;
+                const author = document.getElementById('author').value;
+                const year = parseInt(document.getElementById('year').value);
+                const pages = parseInt(document.getElementById('pages').value);
+                const isRead = document.getElementById('isRead').checked;
+                
+                // Add book to library
+                addBookToLibrary(new Book(title, author, year, pages, isRead));
+                
+                // Display updated library
+                displayBooks();
+                
+                // Reset form
+                this.reset();
+            });
+
+            function displayBooks() {
+                const booksDisplay = document.getElementById('booksDisplay');
+                
+                if (library.length === 0) {
+                    booksDisplay.innerHTML = '<div class="empty-message">No books in your library yet. Add one to get started!</div>';
+                    return;
+                }
+                
+                booksDisplay.innerHTML = getAllBooks(library);
+            }
+
+            // Display initial books on page load
+            displayBooks();
+        });
+    </script>
+</body>
+</html>
